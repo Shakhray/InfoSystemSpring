@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<students>	<student>
+		<surname>Shakhray</surname>
+		<name>Alexander</name>
+		<secondName>Sergeevitch</secondName>
+		<faculty>mex-mat</faculty>
+		<groupNumber>414</groupNumber>
+		<studentID>20096305</studentID>
+		<dateOfTransfer>4.08.2009</dateOfTransfer>
+	</student>	<student>
+		<surname>Odinokov</surname>
+		<name>Nikolay</name>
+		<secondName>Nikolaevitch</secondName>
+		<faculty>mex-mat</faculty>
+		<groupNumber>414</groupNumber>
+		<studentID>20096201</studentID>
+		<dateOfTransfer>4.08.2009</dateOfTransfer>
+	</student>	<student>
+		<surname>Gusev</surname>
+		<name>Vitaly</name>
+		<secondName>Dmitrivich</secondName>
+		<faculty>mex-mat</faculty>
+		<groupNumber>414</groupNumber>
+		<studentID>20091028</studentID>
+		<dateOfTransfer>4.08.2009</dateOfTransfer>
+	</student>	<student>
+		<surname>Grigoriev</surname>
+		<name>Andrey</name>
+		<secondName>Andreevich</secondName>
+		<faculty>mex-mat</faculty>
+		<groupNumber>414</groupNumber>
+		<studentID>20091029</studentID>
+		<dateOfTransfer>4.08.2009</dateOfTransfer>
+	</student>	<student>
+		<surname>Pulina</surname>
+		<name>Ksenia</name>
+		<secondName>Victorovna</secondName>
+		<faculty>mex-mat</faculty>
+		<groupNumber>414</groupNumber>
+		<studentID>20094323</studentID>
+		<dateOfTransfer>4.08.2009</dateOfTransfer>
+	</student>	<student>
+		<surname>Volkov</surname>
+		<name>Dmitriy</name>
+		<secondName>Vadimovich</secondName>
+		<faculty>mex-mat</faculty>
+		<groupNumber>411</groupNumber>
+		<studentID>20097676</studentID>
+		<dateOfTransfer>4.08.2009</dateOfTransfer>
+	</student>	<student>
+		<surname>Zheltko</surname>
+		<name>vitaly</name>
+		<secondName>victorovich</secondName>
+		<faculty>mex-mat</faculty>
+		<groupNumber>411</groupNumber>
+		<studentID>20097676</studentID>
+		<dateOfTransfer>4.08.2009</dateOfTransfer>
+	</student>	<student>
+		<surname>Volkov</surname>
+		<name>Dmitriy</name>
+		<secondName>Anatolievich</secondName>
+		<faculty>mex-mat</faculty>
+		<groupNumber>414</groupNumber>
+		<studentID>20098888</studentID>
+		<dateOfTransfer>0.08.2009</dateOfTransfer>
+	</student>
+	<student>
+		<surname>Dudukina</surname>
+		<name>Anastasia</name>
+		<secondName>Olegovna</secondName>
+		<faculty>mex-mat</faculty>
+		<groupNumber>414</groupNumber>
+		<studentID>20098787</studentID>
+		<dateOfTransfer>4.08.2009</dateOfTransfer>
+	</student>
+	<student>
+		<surname>Volkova</surname>
+		<name>Tatyana</name>
+		<secondName>Vadimovna</secondName>
+		<faculty>kniit</faculty>
+		<groupNumber>232</groupNumber>
+		<studentID>20098878</studentID>
+		<dateOfTransfer>4.08.2011</dateOfTransfer>
+	</student>
+</students>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="console" class="viewers.Console">
+        <property name="controller" ref="controller"/>
+        <property name="reader" ref="bufferedReader"/>
+        <property name="studpattern" ref="studPattern"/>
+        <property name="viewer" ref="viewer"/>
+    </bean>
+    <bean id="controller" class="controllers.Controller">
+        <property name="commandStack" ref="commandStack"/>
+        <property name="model" value="xml"/>
+    </bean>
+
+    <bean id="commandStack" class="java.util.Stack"/>
+    <bean id="studPattern" class="patterns.StudentPattern"/>
+    <bean id="inputStreamReader" class="java.io.InputStreamReader">
+        <constructor-arg type="java.io.InputStream" value="#{systemIn.in}"/>
+    </bean>
+    <bean id="systemIn" class="java.lang.System"/>
+    <bean id="bufferedReader" class="java.io.BufferedReader">
+        <constructor-arg ref="inputStreamReader"/>
+    </bean>
+    <bean id="viewer" class="viewers.Viewer"/>
+    <bean id="model" class="model.Model">
+        <constructor-arg value="xml"/>
+    </bean>
+
+    <bean id="groupDaoXml" class="dao.GroupDaoXml">
+        <property name="sdao" ref="studDaoXml"/>
+    </bean>
+
+    <bean id="studDaoXml" class="dao.StudDaoXml">
+        <property name="studpattern" ref="studPattern"/>
+    </bean>
+
+</beans>
