@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <bean id="console" class="viewers.Console">
-        <property name="controller" ref="controller"/>
-        <property name="reader" ref="bufferedReader"/>
-        <property name="studpattern" ref="studPattern"/>
-        <property name="viewer" ref="viewer"/>
-    </bean>
-    <bean id="controller" class="controllers.Controller"/>
-    <bean id="studPattern" class="patterns.StudentPattern"/>
-    <bean id="inputStreamReader" class="java.io.InputStreamReader">
-        <constructor-arg ref="#{systemIn.in}"/>
-    </bean>
-    <bean id="systemIn" class="java.lang.System"/>
-    <bean id="bufferedReader" class="java.io.BufferedReader">
-        <constructor-arg ref="inputStreamReader"/>
-    </bean>
-    <bean id="viewer" class="viewers.Viewer"/>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation=
+               "http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="sh"/>
+
 </beans>
