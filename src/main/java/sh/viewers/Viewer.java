@@ -7,14 +7,28 @@ import java.util.Collection;
 
 public class Viewer {
     public <E> void printCollection(Collection<E> collect) {
-        int i = 1;
-        for (E e : collect) {
-            if ("Group".equals(e.getClass().getSimpleName()))
-                System.out.println("\t" + i + ". " + ((Group) e).getFaculty() + " " + ((Group) e).getGroup());
+        int index = 0;
+        for (E element : collect) {
+            if (isGroup(element))
+                printGroup((Group) element, ++index);
             else
-                System.out.println("\t" + i + ". " + ((Student) e).getSurname() + " " + ((Student) e).getName() + " " + ((Student) e).getSecondName() + " " + ((Student) e).getFaculty() + " " + ((Student) e).getGroupNumber() + " " + ((Student) e).getStudentID() + " " + ((Student) e).getDateOfTransfer());
-            i++;
+                printStudent((Student) element, ++index);
         }
+    }
+
+    private <E> boolean isGroup(E element) {
+        return Group.class.equals(element.getClass());
+    }
+
+    private void printGroup(Group group, int index) {
+        println("\t" + index + ". " + group.getFaculty() + " " + group.getGroup());
+    }
+
+    private void printStudent(Student student, int index) {
+        println("\t" + index + ". " + student.getSurname() + " " + student.getName() + " " +
+                student.getSecondName() + " " + student.getFaculty() + " " +
+                student.getGroupNumber() + " " + student.getStudentID() + " " +
+                student.getDateOfTransfer());
     }
 
     public String masToString(String[] mas) {
@@ -25,129 +39,126 @@ public class Viewer {
     }
 
     public void print(Student stud) {
-        System.out.println("\t" + stud.getSurname() + " " + stud.getName() + " " + stud.getSecondName() + " " + stud.getFaculty() + " " + stud.getGroupNumber() + " " + stud.getStudentID() + " " + stud.getDateOfTransfer());
+        println("\t" + stud.getSurname() + " " + stud.getName() + " " + stud.getSecondName() + " " + stud.getFaculty() + " " + stud.getGroupNumber() + " " + stud.getStudentID() + " " + stud.getDateOfTransfer());
     }
 
     public void comandLine() {
-        System.out.print("\nInfoSys> ");
+        print("\nInfoSys> ");
     }
 
     public void update(int i) {
         switch (i) {
-            case 0: {
-                System.out.print("number of field: ");
+            case 0:
+                print("number of field: ");
                 break;
-            }
-            case 1: {
-                System.out.print("surname: ");
+            case 1:
+                print("surname: ");
                 break;
-            }
-            case 2: {
-                System.out.print("name: ");
+            case 2:
+                print("name: ");
                 break;
-            }
-            case 3: {
-                System.out.print("secondname: ");
+            case 3:
+                print("secondname: ");
                 break;
-            }
-            case 4: {
-                System.out.print("faculty: ");
+            case 4:
+                print("faculty: ");
                 break;
-            }
-            case 5: {
-                System.out.print("group number: ");
+            case 5:
+                print("group number: ");
                 break;
-            }
-            case 6: {
-                System.out.print("id: ");
+            case 6:
+                print("id: ");
                 break;
-            }
-            case 7: {
-                System.out.print("date of transfer: ");
+            case 7:
+                print("date of transfer: ");
                 break;
-            }
         }
     }
 
     public void delete() {
-        System.out.print("index of deleting field: ");
+        print("index of deleting field: ");
     }
 
     public void changeGroup(int i) {
         switch (i) {
-            case 0: {
-                System.out.print("faculty: ");
+            case 0:
+                print("faculty: ");
                 break;
-            }
-            case 1: {
-                System.out.print("sh.groups number: ");
+            case 1:
+                print("sh.groups number: ");
                 break;
-            }
-            case 2: {
-                System.out.print("new number: ");
+            case 2:
+                print("new number: ");
                 break;
-            }
         }
     }
 
     public void xmlFileError() {
-        System.out.println("bad format of xml file");
+        println("bad format of xml file");
     }
 
     public void badStudentFormat() {
-        System.out.println("bad fields of student. Please, enter correct information about student.");
+        println("bad fields of student. Please, enter correct information about student.");
     }
 
     public void badCommand() {
-        System.out.println("Bad command. Enter command 'help' to open list of programs command.");
+        println("Bad command. Enter command 'help' to open list of programs command.");
     }
 
     public void notFound(String[] str) {
-        System.out.println(masToString(str) + "not found");
+        println(masToString(str) + "not found");
     }
 
     public void copyNotSupport() {
-        System.out.println("copy not support");
+        println("copy not support");
     }
 
     public void welcome() {
-        System.out.println("Welcom to InfoSys.\n");
+        println("Welcom to InfoSys.\n");
     }
 
     public void xmlOrSerial() {
-        System.out.println("Enter 'xml' that work with xml sh.database or 'serial' that work with serealizations dayabase.");
-        System.out.println("Registr of sh.commands does not matter.");
+        println("Enter 'xml' that work with xml sh.database or 'serial' that work with serealizations dayabase.");
+        println("Registr of sh.commands does not matter.");
     }
 
 
     public void helpMessage() {
-        System.out.println("You can enter 'help' to open list of programs command.");
+        println("You can enter 'help' to open list of programs command.");
     }
 
     public void help() {
-        System.out.println("STUDENTS - print list of all sh.students.");
-        System.out.println("ADD - add new sh.students to sh.database. Enter ADD and enter information about new student.");
-        System.out.println("UPDATE - update fields of student in sh.database. Enter UPDATE, enter number of student in sh.database, then enter fields of student. If entering field is empty, field has no change.");
-        System.out.println("DELETE - delete student of sh.database. Enter DELETE and enter number of student in sh.database.");
-        System.out.println("EXIT - exit from program.");
-        System.out.println("FIND - find sh.students and sh.groups. Enter FIND and string for searching.");
-        System.out.println("UNDO - undo of operation.");
-        System.out.println("GROUPS - print list of sh.groups.");
-        System.out.println("RENAMEGROUP - rename group. Enter RENAMEGROUP, faculty, group number and new group number.");
-        System.out.println("COPY - copy from \"sh.students.xml\" to \"students2.xml\".");
-        System.out.println("REMOVEGROUP - remove group. Enter RENAMEGROUP, faculty, group number.");
-        System.out.println("HELP - open help");
+        println("STUDENTS - print list of all sh.students.");
+        println("ADD - add new sh.students to sh.database. Enter ADD and enter information about new student.");
+        println("UPDATE - update fields of student in sh.database. Enter UPDATE, enter number of student in sh.database, then enter fields of student. If entering field is empty, field has no change.");
+        println("DELETE - delete student of sh.database. Enter DELETE and enter number of student in sh.database.");
+        println("EXIT - exit from program.");
+        println("FIND - find sh.students and sh.groups. Enter FIND and string for searching.");
+        println("UNDO - undo of operation.");
+        println("GROUPS - print list of sh.groups.");
+        println("RENAMEGROUP - rename group. Enter RENAMEGROUP, faculty, group number and new group number.");
+        println("COPY - copy from \"sh.students.xml\" to \"students2.xml\".");
+        println("REMOVEGROUP - remove group. Enter RENAMEGROUP, faculty, group number.");
+        println("HELP - open help");
     }
 
     public void programError() {
-        System.out.println("program error");
+        println("program error");
     }
 
     public void nothingToDelete() {
-        System.out.println("nothing to delete");
+        println("nothing to delete");
     }
 
     public void studentNotFound() {
-        System.out.println("Student not found. Please, enter correct index.");
+        println("Student not found. Please, enter correct index.");
+    }
+
+    private void println(String str) {
+        System.out.println(str);
+    }
+
+    private void print(String str) {
+        System.out.print(str);
     }
 }

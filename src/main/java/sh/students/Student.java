@@ -12,7 +12,8 @@ public class Student implements Serializable {
 
     private String faculty;
 
-    public Student(String surname, String name, String secondName, String faculty, String groupNumber, String studentID, String dateOfTransfer) {
+    public Student(String surname, String name, String secondName,
+                   String faculty, String groupNumber, String studentID, String dateOfTransfer) {
         this.surname = surname;
         this.name = name;
         this.secondName = secondName;
@@ -48,58 +49,42 @@ public class Student implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        Student stud = (Student) obj;
-        return stud.getSurname().equals(surname) &&
-                stud.getName().equals(name) &&
-                stud.getSecondName().equals(secondName) &&
-                stud.getGroupNumber().equals(groupNumber) &&
-                stud.getStudentID().equals(studentID) &&
-                stud.getDateOfTransfer().equals(dateOfTransfer) &&
-                stud.getFaculty().equals(faculty);
+        if (obj == null || !(obj instanceof Student)) {
+            return false;
+        } else {
+            Student stud = (Student) obj;
+            return stud.getSurname().equals(surname) &&
+                    stud.getName().equals(name) &&
+                    stud.getSecondName().equals(secondName) &&
+                    stud.getGroupNumber().equals(groupNumber) &&
+                    stud.getStudentID().equals(studentID) &&
+                    stud.getDateOfTransfer().equals(dateOfTransfer) &&
+                    stud.getFaculty().equals(faculty);
+        }
     }
 
     public String getFaculty() {
         return faculty;
     }
 
-    public String getFieldByIndex(int index) {
-        String field = null;
-        try {
-            switch (index) {
-                case 0: {
-                    field = getSurname();
-                    break;
-                }
-                case 1: {
-                    field = getName();
-                    break;
-                }
-                case 2: {
-                    field = getSecondName();
-                    break;
-                }
-                case 3: {
-                    field = getFaculty();
-                    break;
-                }
-                case 4: {
-                    field = getGroupNumber();
-                    break;
-                }
-                case 5: {
-                    field = getStudentID();
-                    break;
-                }
-                case 6: {
-                    field = getDateOfTransfer();
-                    break;
-                }
-                default:
-                    throw new Exception();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    public String getFieldByIndex(int indexOfField) throws Exception {
+        switch (indexOfField) {
+            case 0:
+                return getSurname();
+            case 1:
+                return getName();
+            case 2:
+                return getSecondName();
+            case 3:
+                return getFaculty();
+            case 4:
+                return getGroupNumber();
+            case 5:
+                return getStudentID();
+            case 6:
+                return getDateOfTransfer();
+            default:
+                throw new Exception();
         }
-        return field;
     }
 }

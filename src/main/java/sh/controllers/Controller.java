@@ -5,7 +5,6 @@ import sh.commands.*;
 import sh.exception.BadXmlFileException;
 import sh.exception.CopyNotSupportException;
 import sh.exception.NothingToDeleteException;
-import sh.exception.StudentNotFoundException;
 import sh.groups.Group;
 import sh.model.Model;
 import sh.students.Student;
@@ -18,7 +17,7 @@ import java.util.Stack;
 
 public class Controller {
 
-    private Stack<Command> commands = new Stack<Command>();
+    private Stack<Command> commands = new Stack<>();
     private Model model;
 
     public void setModel(Model model) {
@@ -30,20 +29,27 @@ public class Controller {
     }
 
     public void add(String[] arr) throws BadXmlFileException, SAXException, IOException, ParserConfigurationException, CopyNotSupportException, NothingToDeleteException {
-        Student stud = new Student(arr[0], arr[1], arr[2], arr[3], arr[4], arr[5], arr[6]);
+        Student stud = createStudent(arr);
         Command add = new Add(stud, model.getStudDao());
         add.execute();
         commands.push(add);
     }
 
-    public void update(String[] studField1, int index) throws IOException, BadXmlFileException, SAXException, ParserConfigurationException, CopyNotSupportException, NothingToDeleteException, StudentNotFoundException {
+    public void update(String[] studField1, int index) throws Exception {
         Student stud1 = model.getStudDao().findByIndex(index);
-        for (int i = 0; i <= 6; i++)
-            if ("".equals(studField1[i]) || studField1[i] == null) studField1[i] = stud1.getFieldByIndex(i);
-        Student stud = new Student(studField1[0], studField1[1], studField1[2], studField1[3], studField1[4], studField1[5], studField1[6]);
+        for (int i = 0; i <= 6; i++) {
+            if ("".equals(studField1[i]) || (studField1[i] == null)) {
+                studField1[i] = stud1.getFieldByIndex(i);
+            }
+        }
+        Student stud = createStudent(studField1);
         Command update = new Update(stud, index, model.getStudDao());
         update.execute();
         commands.push(update);
+    }
+
+    private Student createStudent(String[] fields) {
+        return new Student(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5], fields[6]);
     }
 
     public void delete(int index) throws IOException, BadXmlFileException, SAXException, ParserConfigurationException, CopyNotSupportException, NothingToDeleteException {
@@ -69,8 +75,7 @@ public class Controller {
     }
 
     public void undo() {
-        if (!commands.isEmpty())
-            commands.pop().undo();
+        if (!commands.isEmpty()) commands.pop().undo();
     }
 
     public void deleteGroup(String number, String faculty) throws BadXmlFileException, SAXException, IOException, ParserConfigurationException, CopyNotSupportException, NothingToDeleteException {

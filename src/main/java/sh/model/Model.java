@@ -24,12 +24,10 @@ public class Model {
     private Factory getFactory(String dataBaseKey) {
         XmlOrSerial key = XmlOrSerial.valueOf(dataBaseKey.toUpperCase());
         switch (key) {
-            case XML: {
+            case XML:
                 return new XmlFactory();
-            }
-            case SERIAL: {
+            case SERIAL:
                 return new SerialFactory();
-            }
             default:
                 throw new IllegalArgumentException();
         }

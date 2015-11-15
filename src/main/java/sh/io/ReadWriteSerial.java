@@ -14,7 +14,7 @@ public class ReadWriteSerial {
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         try {
             oos.writeObject(net);
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace(System.err);
         } finally {
             oos.flush();
@@ -27,14 +27,11 @@ public class ReadWriteSerial {
      */
     public Object readFromFile() throws IOException, ClassNotFoundException {
         FileInputStream fis = new FileInputStream("networkSerial.out");
-        ObjectInputStream oin = new ObjectInputStream(fis);
         Object net = null;
-        try {
+        try (ObjectInputStream oin = new ObjectInputStream(fis)) {
             net = oin.readObject();
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace(System.err);
-        } finally {
-            oin.close();
         }
         return net;
     }

@@ -3,21 +3,17 @@ package sh.groups;
 import sh.students.Student;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 
 public class Group implements Serializable {
     private static final long serialVersionUID = 1L;
-    private ArrayList<Student> students;
+    private LinkedList<Student> students = new LinkedList<Student>();
     private String faculty;
     private String groupNumber;
 
-    public Group() {
-        students = new ArrayList<Student>();
-    }
-
     public Group(String faculty, String groupNumber) {
-        students = new ArrayList<Student>();
+        students = new LinkedList<Student>();
         this.faculty = faculty;
         this.groupNumber = groupNumber;
     }

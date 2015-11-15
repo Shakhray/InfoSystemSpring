@@ -16,36 +16,13 @@ public class Console {
     BufferedReader reader;
     Viewer viewer;
 
-    public void setController(Controller controller) {
-        this.controller = controller;
-    }
-
-    public void setStudPattern(StudentPattern studPattern) {
-        this.studPattern = studPattern;
-    }
-
-    public void setReader(BufferedReader reader) {
-        this.reader = reader;
-    }
-
-    public void setViewer(Viewer viewer) {
-        this.viewer = viewer;
-    }
-
     public void runConsole() {
         viewer.welcome();
         viewer.helpMessage();
         while (true) {
 
             viewer.comandLine();
-            String command = null;
-            try {
-                command = reader.readLine();
-            } catch (IOException e) {
-                viewer.programError();
-                e.printStackTrace();
-            }
-            String[] arr = command != null ? command.split(" ") : new String[0];
+            String[] arr = getArgsFromCommandLine();
             try {
                 Commands key = Commands.valueOf(arr[0].toUpperCase());
                 switch (key) {
@@ -87,11 +64,7 @@ public class Console {
                 }
             } catch (IllegalArgumentException e) {
                 viewer.badCommand();
-            } catch (BadXmlFileException e) {
-                viewer.xmlFileError();
-            } catch (SAXException e) {
-                viewer.xmlFileError();
-            } catch (ParserConfigurationException e) {
+            } catch (BadXmlFileException | SAXException | ParserConfigurationException e) {
                 viewer.xmlFileError();
             } catch (FormarOfStudentException e) {
                 viewer.badStudentFormat();
@@ -104,9 +77,38 @@ public class Console {
                 viewer.nothingToDelete();
             } catch (StudentNotFoundException e) {
                 viewer.studentNotFound();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
         }
+    }
+
+    private String[] getArgsFromCommandLine() {
+        String command = null;
+        try {
+            command = reader.readLine();
+        } catch (IOException e) {
+            viewer.programError();
+            e.printStackTrace();
+        }
+        return command != null ? command.split(" ") : new String[0];
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
+
+    public void setStudPattern(StudentPattern studPattern) {
+        this.studPattern = studPattern;
+    }
+
+    public void setReader(BufferedReader reader) {
+        this.reader = reader;
+    }
+
+    public void setViewer(Viewer viewer) {
+        this.viewer = viewer;
     }
 
     private void copy() throws ParserConfigurationException, CopyNotSupportException, IOException, BadXmlFileException, SAXException, NothingToDeleteException {
@@ -158,7 +160,7 @@ public class Console {
         else throw new FormarOfStudentException();
     }
 
-    private void update() throws IOException, ParserConfigurationException, CopyNotSupportException, BadXmlFileException, SAXException, NothingToDeleteException, StudentNotFoundException, FormarOfStudentException {
+    private void update() throws Exception {
         String[] stud = new String[7];
         viewer.update(0);
         int index = Integer.valueOf(reader.readLine());

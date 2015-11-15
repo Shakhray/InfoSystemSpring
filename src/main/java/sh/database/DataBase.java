@@ -4,22 +4,16 @@ import sh.groups.Group;
 import sh.students.Student;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 public class DataBase implements Serializable {
     private static final long serialVersionUID = 1L;
+    private LinkedList<Student> students = new LinkedList<>();
+    private LinkedList<Group> groups = new LinkedList<>();
 
-
-    private ArrayList<Student> students;
-    private ArrayList<Group> groups;
-
-    public DataBase() {
-        students = new ArrayList<Student>();
-        groups = new ArrayList<Group>();
-    }
-
-    public ArrayList<Student> getStudents() {
+    public LinkedList<Student> getStudents() {
         return students;
     }
 
@@ -44,8 +38,14 @@ public class DataBase implements Serializable {
 
     }
 
-    public DataBase clone(Object o) throws CloneNotSupportedException {
-        return (DataBase) super.clone();
+    @Override
+    public DataBase clone() throws CloneNotSupportedException {
+        super.clone();
+        DataBase clonedDB = new DataBase();
+        List<Student> students = getStudents();
+        for (Student stud : students)
+            clonedDB.addStudent(stud);
+        return clonedDB;
     }
 
     public Collection<Group> getGroups() {
