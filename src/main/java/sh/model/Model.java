@@ -3,6 +3,7 @@ package sh.model;
 import sh.controllers.XmlOrSerial;
 import sh.dao.GroupDao;
 import sh.dao.StudDao;
+import sh.factory.DBFactory;
 import sh.factory.Factory;
 import sh.factory.SerialFactory;
 import sh.factory.XmlFactory;
@@ -28,6 +29,8 @@ public class Model {
                 return new XmlFactory();
             case SERIAL:
                 return new SerialFactory();
+            case DB:
+                return new DBFactory();
             default:
                 throw new IllegalArgumentException();
         }

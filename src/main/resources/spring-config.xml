@@ -10,5 +10,8 @@
 
     <context:annotation-config/>
     <context:component-scan base-package="sh"/>
-
+    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.h2.Driver"/>
+        <property name="url" value="jdbc:h2:C:/Users/AShakhray/Documents/DataBase1.accdb"/>
+    </bean>-->
 </beans>

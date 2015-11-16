@@ -10,8 +10,8 @@ import java.util.List;
 
 public class DataBase implements Serializable {
     private static final long serialVersionUID = 1L;
-    private LinkedList<Student> students = new LinkedList<>();
-    private LinkedList<Group> groups = new LinkedList<>();
+    private LinkedList<Student> students = new LinkedList<Student>();
+    private LinkedList<Group> groups = new LinkedList<Group>();
 
     public LinkedList<Student> getStudents() {
         return students;

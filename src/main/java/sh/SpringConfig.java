@@ -2,8 +2,12 @@ package sh;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import sh.controllers.Controller;
 import sh.dao.GroupDaoXml;
+import sh.dao.StudDao;
+import sh.dao.StudDaoDB;
 import sh.dao.StudDaoXml;
 import sh.model.Model;
 import sh.patterns.StudentPattern;
@@ -71,5 +75,25 @@ public class SpringConfig {
         GroupDaoXml groupDaoXml = new GroupDaoXml();
         groupDaoXml.setStudDao(studDaoXml());
         return groupDaoXml;
+    }
+
+    @Bean
+    public DriverManagerDataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("org.h2.Driver");
+        dataSource.setUrl("jdbc:h2:C:/Users/AShakhray/Documents/DataBase1.accdb");
+        return dataSource;
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate() {
+        return new JdbcTemplate(dataSource());
+    }
+
+    @Bean
+    public StudDaoDB studDaoDB() {
+        StudDaoDB studDaoDB = new StudDaoDB();
+        studDaoDB.setJdbcTemplate(jdbcTemplate());
+        return studDaoDB;
     }
 }
