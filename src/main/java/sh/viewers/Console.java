@@ -111,7 +111,7 @@ public class Console {
         this.viewer = viewer;
     }
 
-    private void copy() throws ParserConfigurationException, CopyNotSupportException, IOException, BadXmlFileException, SAXException, NothingToDeleteException {
+    private void copy() throws ParserConfigurationException, CopyNotSupportException, IOException, BadXmlFileException, SAXException, NothingToDeleteException, ClassNotFoundException {
         controller.copyFile();
     }
 
@@ -127,7 +127,7 @@ public class Console {
         viewer.printCollection(controller.allGroups());
     }
 
-    private void students() throws BadXmlFileException, ParserConfigurationException, SAXException, IOException {
+    private void students() throws BadXmlFileException, ParserConfigurationException, SAXException, IOException, ClassNotFoundException {
         viewer.printCollection(controller.allStudents());
     }
 
@@ -135,7 +135,7 @@ public class Console {
         viewer.help();
     }
 
-    private void find(String[] arr) throws BadXmlFileException, ParserConfigurationException, SAXException, IOException {
+    private void find(String[] arr) throws BadXmlFileException, ParserConfigurationException, SAXException, IOException, ClassNotFoundException {
         String[] str = new String[arr.length - 1];
         System.arraycopy(arr, 1, str, 0, str.length);
         if (str.length > 0) {
@@ -149,7 +149,7 @@ public class Console {
         }
     }
 
-    private void add() throws IOException, NothingToDeleteException, BadXmlFileException, ParserConfigurationException, SAXException, CopyNotSupportException, FormarOfStudentException {
+    private void add() throws IOException, NothingToDeleteException, BadXmlFileException, ParserConfigurationException, SAXException, CopyNotSupportException, FormarOfStudentException, ClassNotFoundException {
         String[] stud = new String[7];
         for (int i = 1; i <= 7; i++) {
             viewer.update(i);
@@ -176,7 +176,7 @@ public class Console {
         else throw new FormarOfStudentException();
     }
 
-    private void delete() throws IOException, NothingToDeleteException, BadXmlFileException, ParserConfigurationException, SAXException, CopyNotSupportException {
+    private void delete() throws IOException, NothingToDeleteException, BadXmlFileException, ParserConfigurationException, SAXException, CopyNotSupportException, ClassNotFoundException {
         viewer.delete();
         int index = Integer.valueOf(reader.readLine());
         controller.delete(index - 1);

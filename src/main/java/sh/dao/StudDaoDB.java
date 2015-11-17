@@ -22,8 +22,10 @@ public class StudDaoDB implements StudDao {
 
     @Override
     public void write(Student stud) throws IOException {
-        //String addNewStudent = "insert into students values(?)";
-        //jdbcTemplate.query();
+        String addNewStudent = "INSERT INTO students VALUES(?,?,?,?,?,?,?)";
+        jdbcTemplate.update(addNewStudent, stud.getName(), stud.getSurname(),
+                stud.getSecondName(), stud.getGroupNumber(), stud.getStudentID(),
+                stud.getDateOfTransfer(), stud.getFaculty());
     }
 
     @Override
@@ -44,7 +46,8 @@ public class StudDaoDB implements StudDao {
 
     @Override
     public void delete(Student stud) throws IOException, BadXmlFileException, SAXException, ParserConfigurationException, NothingToDeleteException {
-
+        String deleteStudent = "delete from students where student_id = ?";
+        jdbcTemplate.update(deleteStudent, stud.getStudentID());
     }
 
     @Override

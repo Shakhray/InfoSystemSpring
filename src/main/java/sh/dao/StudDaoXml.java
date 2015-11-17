@@ -1,24 +1,24 @@
 package sh.dao;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import sh.exception.BadXmlFileException;
 import sh.exception.NothingToDeleteException;
 import sh.exception.StudentNotFoundException;
 import sh.patterns.StudentPattern;
 import sh.students.Student;
+import sh.students.Students;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 public class StudDaoXml implements StudDao {
     private String fileName = "src/main/java/sh/database/students.xml"; //TODO
@@ -99,58 +99,58 @@ public class StudDaoXml implements StudDao {
         }
     }
 
-    private Collection<Student> readFromXml() throws BadXmlFileException, SAXException, IOException, ParserConfigurationException {
-        Collection<Student> students = new ArrayList<Student>();
+    private List<Student> readFromXml() throws BadXmlFileException, SAXException, IOException, ParserConfigurationException {
+        //List<Student> students = new ArrayList<>();
         String surname, name, secondName;
         String studentID, groupNumber;
         String dateOfTransfer;
         String faculty;
 
         File xmlFile = new File(fileName);
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-        Document document = documentBuilder.parse(xmlFile);
-        document.getDocumentElement().normalize();
-        NodeList nodeList = document.getElementsByTagName(document.getDocumentElement().getChildNodes().item(1).getNodeName());
-        studpattern = new StudentPattern();
-        for (int tmp = 0; tmp < nodeList.getLength(); tmp++) {
-            Node node = nodeList.item(tmp);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element element = (Element) node;
-                surname = element.getElementsByTagName("surname").item(0).getChildNodes().item(0).getNodeValue();
-                name = element.getElementsByTagName("name").item(0).getChildNodes().item(0).getNodeValue();
-                secondName = element.getElementsByTagName("secondName").item(0).getChildNodes().item(0).getNodeValue();
-                faculty = element.getElementsByTagName("faculty").item(0).getChildNodes().item(0).getNodeValue();
-                groupNumber = element.getElementsByTagName("groupNumber").item(0).getChildNodes().item(0).getNodeValue();
-                studentID = element.getElementsByTagName("studentID").item(0).getChildNodes().item(0).getNodeValue();
-                dateOfTransfer = element.getElementsByTagName("dateOfTransfer").item(0).getChildNodes().item(0).getNodeValue();
-                if (studpattern.matcher(surname, name, secondName, faculty, groupNumber, studentID, dateOfTransfer))
-                    students.add(new Student(surname, name, secondName, faculty, groupNumber, studentID, dateOfTransfer));
-                else throw new BadXmlFileException();
-            }
+
+        //InputStream xmlStream = new FileInputStream(xmlFile);
+        Students studContainer = null;
+        try {
+            JAXBContext context = JAXBContext.newInstance(Students.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
+            studContainer = (Students) unmarshaller.unmarshal(xmlFile);
+            System.out.println("studContainer == null : " + (studContainer == null));
+            System.out.println("studContainer.students : " + studContainer.getStudents().toString());
+        } catch (JAXBException e) {
+            e.printStackTrace();
         }
-        return students;
+//
+//        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+//        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+//        Document document = documentBuilder.parse(xmlFile);
+//        document.getDocumentElement().normalize();
+//        NodeList nodeList = document.getElementsByTagName(document.getDocumentElement().getChildNodes().item(1).getNodeName());
+//        studpattern = new StudentPattern();
+//        for (int tmp = 0; tmp < nodeList.getLength(); tmp++) {
+//            Node node = nodeList.item(tmp);
+//            if (node.getNodeType() == Node.ELEMENT_NODE) {
+//                Element element = (Element) node;
+//                surname = element.getElementsByTagName("surname").item(0).getChildNodes().item(0).getNodeValue();
+//                name = element.getElementsByTagName("name").item(0).getChildNodes().item(0).getNodeValue();
+//                secondName = element.getElementsByTagName("secondName").item(0).getChildNodes().item(0).getNodeValue();
+//                faculty = element.getElementsByTagName("faculty").item(0).getChildNodes().item(0).getNodeValue();
+//                groupNumber = element.getElementsByTagName("groupNumber").item(0).getChildNodes().item(0).getNodeValue();
+//                studentID = element.getElementsByTagName("studentID").item(0).getChildNodes().item(0).getNodeValue();
+//                dateOfTransfer = element.getElementsByTagName("dateOfTransfer").item(0).getChildNodes().item(0).getNodeValue();
+//                if (studpattern.matcher(surname, name, secondName, faculty, groupNumber, studentID, dateOfTransfer))
+//                    students.add(new Student(surname, name, secondName, faculty, groupNumber, studentID, dateOfTransfer));
+//                else throw new BadXmlFileException();
+//            }
+//        }
+        return studContainer == null ? new LinkedList<Student>() : studContainer.getStudents();
     }
 
     public Student findByIndex(int index) throws BadXmlFileException, SAXException, IOException, ParserConfigurationException, StudentNotFoundException {
-        Collection<Student> studs = readAll();
-        Student findstud = null;
-        if (index < studs.size()) {
-            int i = 0;
-
-            for (Student st : studs) {
-                if (i == index) {
-                    findstud = st;
-                    break;
-                }
-                i++;
-            }
-        } else throw new StudentNotFoundException();
-        return findstud;
+        return readAll().get(index);
     }
 
     public Collection<Student> read(String[] fields) throws BadXmlFileException, SAXException, IOException, ParserConfigurationException {
-        Collection<Student> foundstudents = new ArrayList<Student>();
+        Collection<Student> foundstudents = new ArrayList<>();
         Collection<Student> students = readFromXml();
         boolean b = false;
         for (Student stud : students) {
@@ -166,17 +166,15 @@ public class StudDaoXml implements StudDao {
     }
 
     public Student read(Student stud) throws BadXmlFileException, SAXException, IOException, ParserConfigurationException {
-        Student foundstudent = null;
         Collection<Student> students = readFromXml();
         for (Student stud1 : students)
             if (stud1.equals(stud)) {
-                foundstudent = stud1;
-                break;
+                return stud1;
             }
-        return foundstudent;
+        return null;
     }
 
-    public Collection<Student> readAll() throws BadXmlFileException, SAXException, IOException, ParserConfigurationException {
+    public List<Student> readAll() throws BadXmlFileException, SAXException, IOException, ParserConfigurationException {
         return readFromXml();
     }
 
@@ -223,7 +221,7 @@ public class StudDaoXml implements StudDao {
     public void update(Student stud, int index) throws IOException, BadXmlFileException, SAXException, ParserConfigurationException {
         int i = 0;
         Collection<Student> students = readFromXml();
-        Collection<Student> students2 = new ArrayList<Student>();
+        Collection<Student> students2 = new ArrayList<>();
         for (Student stud1 : students) {
             if (i == index) students2.add(stud);
             else students2.add(stud1);

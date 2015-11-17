@@ -67,7 +67,6 @@ public class Controller {
     }
 
     public Collection<Student> allStudents() throws BadXmlFileException, SAXException, IOException, ParserConfigurationException, ClassNotFoundException {
-        System.out.println("model.getStudDao() == null : " + (model.getStudDao() == null));
         return model.getStudDao().readAll();
     }
 

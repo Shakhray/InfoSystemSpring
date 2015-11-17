@@ -1,16 +1,26 @@
 package sh.students;
 
+
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 
 
+@XmlRootElement(name = "students")
+@XmlType(propOrder = {"surname", "name", "secondName", "faculty", "groupNumber",
+        "studentID", "dateOfTransfer"},
+        name = "student")
 public class Student implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private String surname, name, secondName;
     private String studentID, groupNumber;
     private String dateOfTransfer;
-
     private String faculty;
+
+    public Student() {
+
+    }
 
     public Student(String surname, String name, String secondName,
                    String faculty, String groupNumber, String studentID, String dateOfTransfer) {
@@ -27,24 +37,63 @@ public class Student implements Serializable {
         return surname;
     }
 
+    //@XmlElement
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
     public String getSecondName() {
         return secondName;
+    }
+
+    //@XmlElement
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
     }
 
     public String getName() {
         return name;
     }
 
+    //@XmlElement
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getGroupNumber() {
         return groupNumber;
+    }
+
+    //@XmlElement
+    public void setGroupNumber(String groupNumber) {
+        this.groupNumber = groupNumber;
     }
 
     public String getStudentID() {
         return studentID;
     }
 
+    //@XmlElement
+    public void setStudentID(String studentID) {
+        this.studentID = studentID;
+    }
+
     public String getDateOfTransfer() {
         return dateOfTransfer;
+    }
+
+    //@XmlElement
+    public void setDateOfTransfer(String dateOfTransfer) {
+        this.dateOfTransfer = dateOfTransfer;
+    }
+
+    public String getFaculty() {
+        return faculty;
+    }
+
+    //@XmlElement
+    public void setFaculty(String faculty) {
+        this.faculty = faculty;
     }
 
     @Override
@@ -61,10 +110,6 @@ public class Student implements Serializable {
                     stud.getDateOfTransfer().equals(dateOfTransfer) &&
                     stud.getFaculty().equals(faculty);
         }
-    }
-
-    public String getFaculty() {
-        return faculty;
     }
 
     public String getFieldByIndex(int indexOfField) throws Exception {
