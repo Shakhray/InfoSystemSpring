@@ -25,10 +25,10 @@ public class Controller {
     }
 
     public void setModel(String databasekey) throws IOException, ClassNotFoundException {
-        model = new Model(databasekey);
+        //model = new Model(databasekey);
     }
 
-    public void add(String[] arr) throws BadXmlFileException, SAXException, IOException, ParserConfigurationException, CopyNotSupportException, NothingToDeleteException {
+    public void add(String[] arr) throws BadXmlFileException, SAXException, IOException, ParserConfigurationException, CopyNotSupportException, NothingToDeleteException, ClassNotFoundException {
         Student stud = createStudent(arr);
         Command add = new Add(stud, model.getStudDao());
         add.execute();
@@ -52,21 +52,22 @@ public class Controller {
         return new Student(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5], fields[6]);
     }
 
-    public void delete(int index) throws IOException, BadXmlFileException, SAXException, ParserConfigurationException, CopyNotSupportException, NothingToDeleteException {
+    public void delete(int index) throws IOException, BadXmlFileException, SAXException, ParserConfigurationException, CopyNotSupportException, NothingToDeleteException, ClassNotFoundException {
         Command remove = new RemoveStudent(index, model.getStudDao());
         remove.execute();
         commands.push(remove);
     }
 
-    public Collection<Student> find(String[] fields) throws BadXmlFileException, SAXException, IOException, ParserConfigurationException {
+    public Collection<Student> find(String[] fields) throws BadXmlFileException, SAXException, IOException, ParserConfigurationException, ClassNotFoundException {
         return model.getStudDao().read(fields);
     }
 
-    public Student find(Student stud) throws BadXmlFileException, SAXException, IOException, ParserConfigurationException {
+    public Student find(Student stud) throws BadXmlFileException, SAXException, IOException, ParserConfigurationException, ClassNotFoundException {
         return model.getStudDao().read(stud);
     }
 
-    public Collection<Student> allStudents() throws BadXmlFileException, SAXException, IOException, ParserConfigurationException {
+    public Collection<Student> allStudents() throws BadXmlFileException, SAXException, IOException, ParserConfigurationException, ClassNotFoundException {
+        System.out.println("model.getStudDao() == null : " + (model.getStudDao() == null));
         return model.getStudDao().readAll();
     }
 
@@ -84,7 +85,7 @@ public class Controller {
         commands.push(remove);
     }
 
-    public void copyFile() throws BadXmlFileException, SAXException, IOException, ParserConfigurationException, CopyNotSupportException, NothingToDeleteException {
+    public void copyFile() throws BadXmlFileException, SAXException, IOException, ParserConfigurationException, CopyNotSupportException, NothingToDeleteException, ClassNotFoundException {
         Command remove = new CopyFile(model.getStudDao());
         remove.execute();
         commands.push(remove);

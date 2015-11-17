@@ -5,10 +5,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import sh.controllers.Controller;
-import sh.dao.GroupDaoXml;
-import sh.dao.StudDao;
+import sh.controllers.XmlOrSerial;
 import sh.dao.StudDaoDB;
-import sh.dao.StudDaoXml;
+import sh.factory.DBFactory;
+import sh.factory.Factory;
+import sh.factory.SerialFactory;
+import sh.factory.XmlFactory;
 import sh.model.Model;
 import sh.patterns.StudentPattern;
 import sh.viewers.Console;
@@ -45,7 +47,23 @@ public class SpringConfig {
 
     @Bean
     public Model model() throws IOException, ClassNotFoundException {
-        return new Model(MODEL_KEY);
+        Model model = new Model(getFactory(MODEL_KEY));
+        //model.setFactory(dbFactory());
+        return model;
+    }
+
+    private Factory getFactory(String dataBaseKey) {
+        XmlOrSerial key = XmlOrSerial.valueOf(dataBaseKey.toUpperCase());
+        switch (key) {
+            case XML:
+                return xmlFactory();
+            case SERIAL:
+                return serialFactory();
+            case DB:
+                return dbFactory();
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 
     @Bean
@@ -63,19 +81,19 @@ public class SpringConfig {
         return new Viewer();
     }
 
-    @Bean
-    public StudDaoXml studDaoXml() {
-        StudDaoXml studDaoXml = new StudDaoXml();
-        studDaoXml.setStudpattern(studentPattern());
-        return studDaoXml;
-    }
-
-    @Bean
-    public GroupDaoXml groupDaoXml() {
-        GroupDaoXml groupDaoXml = new GroupDaoXml();
-        groupDaoXml.setStudDao(studDaoXml());
-        return groupDaoXml;
-    }
+//    @Bean
+//    public StudDaoXml studDaoXml() {
+//        StudDaoXml studDaoXml = new StudDaoXml();
+//        studDaoXml.setStudpattern(studentPattern());
+//        return studDaoXml;
+//    }
+//
+//    @Bean
+//    public GroupDaoXml groupDaoXml() {
+//        GroupDaoXml groupDaoXml = new GroupDaoXml();
+//        groupDaoXml.setStudDao(studDaoXml());
+//        return groupDaoXml;
+//    }
 
     @Bean
     public DriverManagerDataSource dataSource() {
@@ -95,5 +113,22 @@ public class SpringConfig {
         StudDaoDB studDaoDB = new StudDaoDB();
         studDaoDB.setJdbcTemplate(jdbcTemplate());
         return studDaoDB;
+    }
+
+    @Bean
+    public DBFactory dbFactory() {
+        DBFactory dbFactory = new DBFactory();
+        dbFactory.setStudDao(studDaoDB());
+        return dbFactory;
+    }
+
+    @Bean
+    public SerialFactory serialFactory() {
+        return new SerialFactory();
+    }
+
+    @Bean
+    public XmlFactory xmlFactory() {
+        return new XmlFactory();
     }
 }

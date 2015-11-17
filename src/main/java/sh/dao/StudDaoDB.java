@@ -22,7 +22,8 @@ public class StudDaoDB implements StudDao {
 
     @Override
     public void write(Student stud) throws IOException {
-
+        //String addNewStudent = "insert into students values(?)";
+        //jdbcTemplate.query();
     }
 
     @Override
@@ -38,7 +39,6 @@ public class StudDaoDB implements StudDao {
     @Override
     public Collection<Student> readAll() throws BadXmlFileException, SAXException, IOException, ParserConfigurationException {
         String getAllQuery = "select * from students";
-        System.out.println("jdbcTemplate is null : " + (jdbcTemplate == null));
         return jdbcTemplate.query(getAllQuery, new StudentMapper());
     }
 
